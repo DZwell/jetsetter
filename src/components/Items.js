@@ -9,6 +9,14 @@ class Items extends Component {
 
   updateSearchTerm = searchTerm => {};
 
+  handleCheck = checked => {
+
+  }
+
+  handleRemove = itemId => {
+    this.props.onRemove(itemId);
+  }
+
   render() {
     const { title, items } = this.props;
     return (
@@ -26,7 +34,7 @@ class Items extends Component {
             <Item
               key={item.id}
               onCheckOff={() => {}}
-              onRemove={() => {}}
+              onRemove={this.handleRemove}
               item={item}
             />
           ))}
