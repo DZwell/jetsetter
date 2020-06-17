@@ -3,14 +3,10 @@ import Item from './Item';
 import Filter from './Filter';
 
 class Items extends Component {
-  state = {
-    // What state does this component have?
-  };
-
   updateSearchTerm = searchTerm => {};
 
-  handleCheck = checked => {
-
+  handleChecked = (itemId, packed) => {
+    this.props.onChecked(itemId, packed);
   }
 
   handleRemove = itemId => {
@@ -33,7 +29,7 @@ class Items extends Component {
           .map(item => (
             <Item
               key={item.id}
-              onCheckOff={() => {}}
+              onCheckOff={this.handleChecked}
               onRemove={this.handleRemove}
               item={item}
             />

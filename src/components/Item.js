@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './Item.css';
 
 class Item extends Component {
+  handleChecked = item => {
+    this.props.onCheckOff(item.id, !item.packed);
+  }
+
   handleRemove = item => {
     this.props.onRemove(item.id);
   }
@@ -14,7 +18,7 @@ class Item extends Component {
           <input
             type="checkbox"
             checked={item.packed}
-            onChange={() => {}}
+            onChange={this.handleChecked.bind(this, item)}
             id={item.id}
           />
           {item.value}

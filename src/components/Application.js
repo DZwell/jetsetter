@@ -41,6 +41,18 @@ class Application extends Component {
     }
   };
 
+  handleChecked = (itemId, packed) => {
+    const items = [...this.state.items];
+    for (const item of items) {
+      if (item.id === itemId) {
+        item.packed = packed;
+        break;
+      }
+    }
+
+    this.setState({ items });
+  }
+
   handleSubmit = value => {
     const newItem = this.buildItemObject(value);
     this.setState({ items: [...this.state.items, newItem] });
@@ -57,8 +69,8 @@ class Application extends Component {
       <div className="Application">
         <NewItem onSubmit={this.handleSubmit}/>
         <CountDown />
-        <Items onRemove={this.handleRemove} title="Unpacked Items" items={this.unpackedItems} />
-        <Items onRemove={this.handleRemove} title="Packed Items" items={this.packedItems} />
+        <Items onChecked={this.handleChecked} onRemove={this.handleRemove} title="Unpacked Items" items={this.unpackedItems} />
+        <Items onChecked={this.handleChecked} onRemove={this.handleRemove} title="Packed Items" items={this.packedItems} />
         <button className="button full-width">Mark All As Unpacked</button>
       </div>
     );
