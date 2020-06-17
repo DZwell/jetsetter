@@ -9,5 +9,6 @@
 
 .Item-remove:hover {
   background-color: white;
+  cursor: pointer;
   text-decoration: underline;
 }
