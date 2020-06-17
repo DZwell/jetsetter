@@ -3,7 +3,11 @@ import Item from './Item';
 import Filter from './Filter';
 
 class Items extends Component {
-  updateSearchTerm = searchTerm => {};
+  state = {
+    searchTerm: '',
+  }
+
+  updateSearchTerm = searchTerm => this.setState(state => ({ searchTerm }));
 
   handleChecked = (itemId, packed) => {
     this.props.onChecked(itemId, packed);
@@ -15,16 +19,17 @@ class Items extends Component {
 
   render() {
     const { title, items } = this.props;
+    const { searchTerm } = this.state;
+
     return (
       <section className="Items">
         <h2>
           {title} ({items.length})
         </h2>
-        <Filter searchTerm={''} onChange={this.updateSearchTerm} />
+        <Filter searchTerm={searchTerm} onChange={this.updateSearchTerm} />
         {items
           .filter(item =>
-            // Hmm… this needs some work.
-            item.value.toLowerCase().includes(''.toLowerCase()),
+            item.value.toLowerCase().includes(searchTerm.toLowerCase()),
           )
           .map(item => (
             <Item
