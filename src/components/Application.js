@@ -33,7 +33,7 @@ class Application extends Component {
     return this.state.items.filter(item => !item.packed);
   };
 
-  buildItemObject = itemName => {
+  _buildItemObject = itemName => {
     return {
       value: itemName,
       id: uniqueId(),
@@ -41,21 +41,24 @@ class Application extends Component {
     }
   };
 
-  handleChecked = (itemId, packed) => {
-    const items = [...this.state.items];
+  _setItemPackedStatus = (itemId, items, packed) => {
     for (const item of items) {
       if (item.id === itemId) {
         item.packed = packed;
         break;
       }
     }
+  }
 
+  handleChecked = (itemId, packed) => {
+    const items = [...this.state.items];
+    this._setItemPackedStatus(itemId, items, packed);
     this.setState({ items });
   }
 
   handleSubmit = value => {
-    const newItem = this.buildItemObject(value);
-    this.setState({ items: [...this.state.items, newItem] });
+    const newItem = this._buildItemObject(value);
+    this.setState(state => ({ items: [...state.items, newItem] }));
   };
 
   handleRemove = itemId => {
