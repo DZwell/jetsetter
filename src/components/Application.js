@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
-import uniqueId from 'lodash/uniqueId';
 import CountDown from './CountDown';
 import NewItem from './NewItem';
 import Items from './Items';
 
 import './Application.css';
-
-const defaultState = [
-  { value: 'Pants', id: uniqueId(), packed: false },
-  { value: 'Jacket', id: uniqueId(), packed: false },
-  { value: 'iPhone Charger', id: uniqueId(), packed: false },
-  { value: 'MacBook', id: uniqueId(), packed: false },
-  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
-  { value: 'Underwear', id: uniqueId(), packed: false },
-  { value: 'Hat', id: uniqueId(), packed: false },
-  { value: 'T-Shirts', id: uniqueId(), packed: false },
-  { value: 'Belt', id: uniqueId(), packed: false },
-  { value: 'Passport', id: uniqueId(), packed: true },
-  { value: 'Sandwich', id: uniqueId(), packed: true },
-];
+import { itemStore } from '../infrastructure/itemStore';
+import { Actions } from '../infrastructure/actions';
 
 class Application extends Component {
   state = {
-    items: defaultState,
-  };
+    items: itemStore.items,
+  }
+
+  componentDidMount() {
+    itemStore.on('change', this.updateItems)
+  }
+
+  componentWillUnmount() {
+    itemStore.off('change', this.updateItems)
+  }
+
+  updateItems = () => {
+    const items = itemStore.items;
+    this.setState({ items });
+  }
 
   get packedItems() {
     return this.state.items.filter(item => item.packed);
@@ -31,14 +31,6 @@ class Application extends Component {
 
   get unpackedItems() {
     return this.state.items.filter(item => !item.packed);
-  };
-
-  _buildItemObject = itemName => {
-    return {
-      value: itemName,
-      id: uniqueId(),
-      packed: false,
-    }
   };
 
   _setItemPackedStatus = (itemId, items, packed) => {
@@ -51,15 +43,10 @@ class Application extends Component {
   }
 
   handleChecked = (itemId, packed) => {
-    const items = [...this.state.items];
+    const items = this.state.items;
     this._setItemPackedStatus(itemId, items, packed);
     this.setState({ items });
   }
-
-  handleSubmit = value => {
-    const newItem = this._buildItemObject(value);
-    this.setState(state => ({ items: [...state.items, newItem] }));
-  };
 
   handleRemove = itemId => {
     this.setState((state) => {
@@ -70,7 +57,7 @@ class Application extends Component {
   render() {
     return (
       <div className="Application">
-        <NewItem onSubmit={this.handleSubmit}/>
+        <NewItem onSubmit={(evt) => Actions.addItem(evt)}/>
         <CountDown />
         <Items onChecked={this.handleChecked} onRemove={this.handleRemove} title="Unpacked Items" items={this.unpackedItems} />
         <Items onChecked={this.handleChecked} onRemove={this.handleRemove} title="Packed Items" items={this.packedItems} />
