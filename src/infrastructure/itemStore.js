@@ -10,6 +10,10 @@ class ItemStore extends EventEmitter {
       switch (action.type) {
         case ItemActions.ADD_ITEM:
           this.handleAddItem(action.item);
+          break;
+        case ItemActions.DELETE_ITEM:
+          this.handleDeleteItem(action.itemId);
+          break;
       }
     });
   }
@@ -37,6 +41,11 @@ class ItemStore extends EventEmitter {
     this._items.push(newItem);
     this.emit('change');
   };
+
+  handleDeleteItem = itemId => {
+    this._items = this._items.filter(x => x.id !== itemId);
+    this.emit('change');
+  }
 
   _buildItemObject = itemName => {
     return {

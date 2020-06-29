@@ -48,19 +48,13 @@ class Application extends Component {
     this.setState({ items });
   }
 
-  handleRemove = itemId => {
-    this.setState((state) => {
-      return { items: state.items.filter(x => x.id !== itemId) }
-    });
-  }
-
   render() {
     return (
       <div className="Application">
-        <NewItem onSubmit={(evt) => Actions.addItem(evt)}/>
+        <NewItem onSubmit={Actions.addItem}/>
         <CountDown />
-        <Items onChecked={this.handleChecked} onRemove={this.handleRemove} title="Unpacked Items" items={this.unpackedItems} />
-        <Items onChecked={this.handleChecked} onRemove={this.handleRemove} title="Packed Items" items={this.packedItems} />
+        <Items onChecked={this.handleChecked} onRemove={Actions.deleteItem} title="Unpacked Items" items={this.unpackedItems} />
+        <Items onChecked={this.handleChecked} onRemove={Actions.deleteItem} title="Packed Items" items={this.packedItems} />
         <button className="button full-width">Mark All As Unpacked</button>
       </div>
     );
