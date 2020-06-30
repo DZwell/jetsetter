@@ -14,6 +14,12 @@ class ItemStore extends EventEmitter {
         case ItemActions.DELETE_ITEM:
           this.handleDeleteItem(action.itemId);
           break;
+        case ItemActions.CHANGE_PACKED_STATUS:
+          this.handleChangePackedStatus(action.itemId, action.packed);
+          break;
+        case ItemActions.UNPACK_ALL_ITEMS:
+          this.handleUnpackAllItems();
+          break;
       }
     });
   }
@@ -45,6 +51,27 @@ class ItemStore extends EventEmitter {
   handleDeleteItem = itemId => {
     this._items = this._items.filter(x => x.id !== itemId);
     this.emit('change');
+  }
+
+  handleChangePackedStatus = (itemId, packed) => {
+    this._setItemPackedStatus(itemId, packed);
+    this.emit('change');
+  }
+
+  handleUnpackAllItems = () => {
+    for (const item of this._items) {
+      item.packed = false;
+    }
+    this.emit('change');
+  }
+
+  _setItemPackedStatus = (itemId, isPacked) => {
+    for (const item of this._items) {
+      if (item.id === itemId) {
+        item.packed = isPacked;
+        break;
+      }
+    }
   }
 
   _buildItemObject = itemName => {

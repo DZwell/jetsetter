@@ -13,5 +13,17 @@ export const Actions = {
       type: ItemActions.DELETE_ITEM,
       itemId,
     });
-  }
+  },
+  changePackedStatus: (itemId, packed) => {
+    AppDispatcher.dispatch({
+      type: ItemActions.CHANGE_PACKED_STATUS,
+      itemId,
+      packed,
+    });
+  },
+  unpackAllItems: () => {
+    AppDispatcher.dispatch({
+      type: ItemActions.UNPACK_ALL_ITEMS,
+    });
+  },
 }

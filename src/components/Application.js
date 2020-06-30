@@ -33,29 +33,14 @@ class Application extends Component {
     return this.state.items.filter(item => !item.packed);
   };
 
-  _setItemPackedStatus = (itemId, items, packed) => {
-    for (const item of items) {
-      if (item.id === itemId) {
-        item.packed = packed;
-        break;
-      }
-    }
-  }
-
-  handleChecked = (itemId, packed) => {
-    const items = this.state.items;
-    this._setItemPackedStatus(itemId, items, packed);
-    this.setState({ items });
-  }
-
   render() {
     return (
       <div className="Application">
         <NewItem onSubmit={Actions.addItem}/>
         <CountDown />
-        <Items onChecked={this.handleChecked} onRemove={Actions.deleteItem} title="Unpacked Items" items={this.unpackedItems} />
-        <Items onChecked={this.handleChecked} onRemove={Actions.deleteItem} title="Packed Items" items={this.packedItems} />
-        <button className="button full-width">Mark All As Unpacked</button>
+        <Items onChecked={Actions.changePackedStatus} onRemove={Actions.deleteItem} title="Unpacked Items" items={this.unpackedItems} />
+        <Items onChecked={Actions.changePackedStatus} onRemove={Actions.deleteItem} title="Packed Items" items={this.packedItems} />
+        <button onClick={Actions.unpackAllItems} className="button full-width">Mark All As Unpacked</button>
       </div>
     );
   }
