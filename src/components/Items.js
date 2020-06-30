@@ -9,17 +9,10 @@ class Items extends Component {
 
   updateSearchTerm = searchTerm => this.setState(state => ({ searchTerm }));
 
-  handleChecked = (itemId, packed) => {
-    this.props.onChecked(itemId, packed);
-  }
-
-  handleRemove = itemId => {
-    this.props.onRemove(itemId);
-  }
-
   render() {
     const { title, items } = this.props;
     const { searchTerm } = this.state;
+
 
     return (
       <section className="Items">
@@ -34,8 +27,6 @@ class Items extends Component {
           .map(item => (
             <Item
               key={item.id}
-              onCheckOff={this.handleChecked}
-              onRemove={this.handleRemove}
               item={item}
             />
           ))}

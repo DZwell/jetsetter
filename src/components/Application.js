@@ -4,8 +4,7 @@ import NewItem from './NewItem';
 import Items from './Items';
 
 import './Application.css';
-import { itemStore } from '../infrastructure/itemStore';
-import { Actions } from '../infrastructure/actions';
+import { Actions, itemStore } from '../infrastructure';
 
 class Application extends Component {
   state = {
@@ -38,8 +37,8 @@ class Application extends Component {
       <div className="Application">
         <NewItem onSubmit={Actions.addItem}/>
         <CountDown />
-        <Items onChecked={Actions.changePackedStatus} onRemove={Actions.deleteItem} title="Unpacked Items" items={this.unpackedItems} />
-        <Items onChecked={Actions.changePackedStatus} onRemove={Actions.deleteItem} title="Packed Items" items={this.packedItems} />
+        <Items title="Unpacked Items" items={this.unpackedItems} />
+        <Items title="Packed Items" items={this.packedItems} />
         <button onClick={Actions.unpackAllItems} className="button full-width">Mark All As Unpacked</button>
       </div>
     );

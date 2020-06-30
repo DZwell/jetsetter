@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { Actions } from '../infrastructure';
 import './Item.css';
 
 class Item extends Component {
-  handleChecked = item => {
-    this.props.onCheckOff(item.id, !item.packed);
+  handleChecked = () => {
+    const { item } = this.props;
+    Actions.changePackedStatus(item.id, !item.packed);
   }
 
-  handleRemove = item => {
-    this.props.onRemove(item.id);
+  handleRemove = () => {
+    Actions.deleteItem(this.props.item.id);
   }
 
   render() {
@@ -18,12 +20,12 @@ class Item extends Component {
           <input
             type="checkbox"
             checked={item.packed}
-            onChange={this.handleChecked.bind(this, item)}
+            onChange={this.handleChecked}
             id={item.id}
           />
           {item.value}
         </label>
-        <button className="Item-remove" onClick={this.handleRemove.bind(this, item)}>
+        <button className="Item-remove" onClick={this.handleRemove}>
           Remove
         </button>
       </article>
