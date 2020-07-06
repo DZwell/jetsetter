@@ -41,11 +41,6 @@ class Application extends Component {
     this.setState({ items: [updatedItem, ...otherItems] });
   };
 
-  markAllAsUnpacked = () => {
-    const items = this.state.items.map(item => ({ ...item, packed: false }));
-    this.setState({ items });
-  };
-
   render() {
     const { items } = this.state;
     const unpackedItems = items.filter(item => !item.packed);
@@ -67,7 +62,7 @@ class Application extends Component {
           onCheckOff={this.markAsPacked}
           onRemove={this.removeItem}
         />
-        <button className="button full-width" onClick={this.markAllAsUnpacked}>
+        <button className="button full-width" onClick={this.props.onMarkAllAsUnpacked}>
           Mark All As Unpacked
         </button>
       </div>
