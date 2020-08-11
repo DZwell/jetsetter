@@ -1,12 +1,15 @@
+import React from 'react';
 import { connect } from 'react-redux';
-import Application from '../components/Application';
-import { markAllAsUnpacked } from '../actions/items-actions'
+import { bindActionCreators } from 'redux';
 
-const mapStateToProps = state => state.items.map(x => x.packed = false);
-const mapDispatchToProps = dispatch => {
-  return {
-    onMarkAllAsUnpacked: () => dispatch(markAllAsUnpacked())
-  };
-}
+import { markAllAsUnpacked } from '../actions/items-actions';
 
-export default connect(mapStateToProps, mapDispatchToProps)(Application)
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ markAllAsUnpacked }, dispatch);
+};
+
+export default connect(null, mapDispatchToProps)(({ markAllAsUnpacked }) => (
+  <button className="full-width" onClick={markAllAsUnpacked}>
+    Mark All as Unpacked
+  </button>
+));
