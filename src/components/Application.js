@@ -3,11 +3,13 @@ import './Application.css';
 import React, { Component } from 'react';
 
 import MarkAllAsUnpackedContainer from '../containers/MarkAllAsUnpackedContainer';
+import NewItemContainer from '../containers/NewItemContainer';
+import PackedFilterContainer from '../containers/PackedFilterContainer';
+import PackedItemsContainer from '../containers/PackedItemsContainer';
 import store from '../store';
 
 import CountDown from './CountDown';
 import Items from './Items';
-import NewItem from './NewItem';
 
 class Application extends Component {
   state = {
@@ -38,7 +40,7 @@ class Application extends Component {
 
     return (
       <div className="Application">
-        <NewItem onSubmit={this.addItem} />
+        <NewItemContainer />
         <CountDown {...this.state} />
         <Items
           title="Unpacked Items"
@@ -46,12 +48,7 @@ class Application extends Component {
           onCheckOff={this.markAsPacked}
           onRemove={this.removeItem}
         />
-        <Items
-          title="Packed Items"
-          items={packedItems}
-          onCheckOff={this.markAsPacked}
-          onRemove={this.removeItem}
-        />
+        <PackedItemsContainer render={() => <PackedFilterContainer />} />
         <MarkAllAsUnpackedContainer />
       </div>
     );
